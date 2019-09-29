@@ -22,3 +22,11 @@ Route::get('/create/{id}/{name}', function ($id, $name) {
   $user = User::find($id);
   $user->roles()->save( new Role(['name' => $name]) );
 });
+
+Route::get('/read/{id}', function ($id) {
+  $user = User::findOrFail($id);
+  foreach ($user->roles as $role) {
+    //dd($role);
+    echo $role->name . '</br>';
+  }
+});
