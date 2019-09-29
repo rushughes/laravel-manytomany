@@ -42,3 +42,25 @@ Route::get('/update/{id}/{role_name}', function ($id, $role_name) {
     }
   }
 });
+
+Route::get('/delete/{id}/{role_id}', function ($id, $role_id) {
+  $user = User::findOrFail($id);
+  foreach ($user->roles() as $role) {
+    $role->whereId($role_id)->delete();
+  }
+});
+
+Route::get('/attach/{id}/{role_id}', function ($id, $role_id) {
+  $user = User::findOrFail($id);
+  $user->roles()->attach($role_id);
+});
+
+Route::get('/detach/{id}/{role_id}', function ($id, $role_id) {
+  $user = User::findOrFail($id);
+  $user->roles()->detach($role_id);
+});
+
+Route::get('/sync/{id}', function ($id) {
+  $user = User::findOrFail($id);
+  $user->roles()->sync([3,4]);
+});
