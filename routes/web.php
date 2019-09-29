@@ -30,3 +30,15 @@ Route::get('/read/{id}', function ($id) {
     echo $role->name . '</br>';
   }
 });
+
+Route::get('/update/{id}/{role_name}', function ($id, $role_name) {
+  $user = User::findOrFail($id);
+  if ($user->has('roles')) {
+    foreach($user->roles as $role) {
+      if ($role->name == $role_name) {
+        $role->name = $role_name . '1';
+        $role->save();
+      }
+    }
+  }
+});
